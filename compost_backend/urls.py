@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework_simplejwt.views import TokenRefreshView
@@ -22,14 +22,13 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from users.views import SignInView, TokenObtainPairView
 
 auth_patterns = [
-    path("sign-in/", SignInView.as_view(), name='sign_in_view'),
-    path("token/", TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path("refresh/", TokenRefreshView.as_view(), name='token_refresh'),
+    path("sign-in/", SignInView.as_view(), name="sign_in_view"),
+    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("refresh/", TokenRefreshView.as_view(), name="token_refresh"),
 ]
 
 api_patterns = [
-    path('auth/', include((auth_patterns, "auth"))),
-
+    path("auth/", include((auth_patterns, "auth"))),
 ]
 
 api_schema_view = get_schema_view(
@@ -42,12 +41,11 @@ api_schema_view = get_schema_view(
     public=True,
 )
 
-urlpatterns = [
+urlpatterns = api_patterns + [
     path(
         "swagger/",
         api_schema_view.with_ui("swagger", cache_timeout=0),
         name="api-schema-swagger-ui",
     ),
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
 ]
-

@@ -1,0 +1,74 @@
+default_language_version:
+  python: python3.10
+
+# NOTES: For CI/CD should be true, localy better false
+fail_fast: false
+
+repos:
+  # native hints instead of `from typing` | List -> list
+  - repo: https://github.com/sondrelg/pep585-upgrade
+    rev: 'v1.0' # Version to check
+    hooks:
+      - id: upgrade-type-hints
+
+  - repo: https://github.com/PyCQA/isort
+    rev: '5.10.1' # Version to check
+    hooks:
+      - id: isort
+
+  # Only for removing unused imports > Other staff done by Black
+  - repo: https://github.com/myint/autoflake
+    rev: "v1.7.7" # Version to check
+    hooks:
+      - id: autoflake
+        args:
+          - --in-place
+          - --remove-all-unused-imports
+          - --ignore-init-module-imports
+
+  - repo: https://github.com/psf/black
+    rev: 22.10.0
+    hooks:
+      - id: black
+        # Set 90 or 120
+        args: [--line-length, "120", "."]
+
+  # Check if it is not done already by Black
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.3.0
+    hooks:
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-builtin-literals
+
+  # Keeps pre commit file clean
+  - repo: meta
+    hooks:
+      - id: check-hooks-apply
+      - id: check-useless-excludes
+
+  # More strict ignores
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.9.0
+    hooks:
+      - id: python-check-blanket-noqa
+      - id: python-check-blanket-type-ignore
+
+  - repo: https://github.com/pycqa/flake8
+    rev: '5.0.4'
+    hooks:
+    -   id: flake8
+        # Line length is longer than in black, because black does not break long strings
+        args: ["--max-line-length=200"]
+        files: |
+          (?x)^(
+               compost_backend/.*|
+               tests/.*
+          )$
+        additional_dependencies:
+          - flake8-pytest-style
+          - flake8-bugbear
+          - flake8-comprehensions
+          - flake8-bandit
+          - pep8-naming
+          - flake8-raise

@@ -10,7 +10,7 @@ from rest_framework_simplejwt.serializers import TokenRefreshSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from users.models import SmsCode, User
-from users.serializers import UserSerializer, SmsCodeIdSerializer, SmsCodeSerializer
+from users.serializers import SmsCodeIdSerializer, SmsCodeSerializer, UserSerializer
 
 
 class SignInView(APIView):
@@ -18,9 +18,7 @@ class SignInView(APIView):
 
     @swagger_auto_schema(
         request_body=UserSerializer(),
-        responses={
-            201: SmsCodeIdSerializer()
-        },
+        responses={201: SmsCodeIdSerializer()},
     )
     def post(self, request: Request) -> Response:
         user_serializer = UserSerializer(data=request.data)
@@ -45,7 +43,7 @@ class TokenObtainPairView(APIView):
         request_body=SmsCodeSerializer(),
         responses={
             200: TokenRefreshSerializer(),
-        }
+        },
     )
     def post(self, request: Request) -> Response:
         sms_code_serializer = SmsCodeSerializer(data=request.data)
@@ -61,8 +59,9 @@ class TokenObtainPairView(APIView):
 
         token: RefreshToken = RefreshToken.for_user(sms_code.user)
 
-        return Response({
-            "refresh": str(token),
-            "access": str(token.access_token),
-        })
-
+        return Response(
+            {
+                "refresh": str(token),
+                "access": str(token.access_token),
+            }
+        )

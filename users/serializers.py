@@ -1,25 +1,26 @@
-from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from rest_framework_simplejwt.tokens import RefreshToken
 
-from users.models import User, SmsCode
+from users.models import SmsCode, User
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('contract', 'phone')
+        fields = ("contract", "phone")
 
 
 class SmsCodeIdSerializer(serializers.ModelSerializer):
     class Meta:
         model = SmsCode
-        fields = ('uuid',)
+        fields = ("uuid",)
 
 
 class SmsCodeSerializer(serializers.ModelSerializer):
     class Meta:
         model = SmsCode
-        fields = ('uuid', 'code',)
+        fields = (
+            "uuid",
+            "code",
+        )
 
     uuid = serializers.UUIDField()

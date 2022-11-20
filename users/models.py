@@ -8,20 +8,11 @@ from phone_field import PhoneField
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    USERNAME_FIELD = 'phone'
+    USERNAME_FIELD = "phone"
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    contract = models.CharField(
-        max_length=255,
-        null=False,
-        blank=False,
-        unique=True
-    )
-    phone = PhoneField(
-        null=False,
-        blank=False,
-        unique=True
-    )
+    contract = models.CharField(max_length=255, null=False, blank=False, unique=True)
+    phone = PhoneField(null=False, blank=False, unique=True)
 
 
 def generate_sms_code() -> str:

@@ -57,7 +57,12 @@ class TokenObtainPairView(APIView):
         if not valid:
             raise ValidationError("Invalid code")
 
-        token: RefreshToken = RefreshToken.for_user(sms_code.user)
+        user = sms_code.user
+
+        user.is_active = True
+        user.save()
+
+        token: RefreshToken = RefreshToken.for_user(user)
 
         return Response(
             {

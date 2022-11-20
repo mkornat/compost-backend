@@ -6,13 +6,21 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from phone_field import PhoneField
 
+from users.managers import UserManager
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "phone"
 
+    objects = UserManager()
+
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     contract = models.CharField(max_length=255, null=False, blank=False, unique=True)
-    phone = PhoneField(null=False, blank=False, unique=True)
+    phone = models.CharField(max_length=15, null=False, blank=False, unique=True)
+    password = models.CharField(max_length=128, null=False, blank=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
 
 
 def generate_sms_code() -> str:

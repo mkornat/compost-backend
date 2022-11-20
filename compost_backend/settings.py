@@ -134,12 +134,19 @@ AUTH_USER_MODEL = 'users.User'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
 }
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=60),
     "ALGORITHM": "HS256",
-    "SIGNING_KEY": SECRET_KEY
+    "SIGNING_KEY": SECRET_KEY,
+    "USER_ID_FIELD": "uuid",
 }
+
+
+SMS_CODE_LENGTH = 5
+
+DEMO_SEND_SMS = False
+DEMO_STATIC_CODE = "00000"

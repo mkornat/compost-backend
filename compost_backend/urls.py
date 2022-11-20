@@ -42,7 +42,7 @@ api_schema_view = get_schema_view(
     public=True,
 )
 
-urlpatterns = [
+urlpatterns = api_patterns + [
     path(
         "swagger/",
         api_schema_view.with_ui("swagger", cache_timeout=0),

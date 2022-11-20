@@ -5,7 +5,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from users.models import User, SmsCode
 
 
-class NewUserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('contract', 'phone')

@@ -21,6 +21,8 @@ from rest_framework_simplejwt.views import TokenRefreshView
 
 from users.views import SignInView, TokenObtainPairView
 
+import compost.urls
+
 auth_patterns = [
     path("sign-in/", SignInView.as_view(), name="sign_in_view"),
     path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
@@ -29,6 +31,7 @@ auth_patterns = [
 
 api_patterns = [
     path("auth/", include((auth_patterns, "auth"))),
+    path("compost/", include((compost.urls, "compost"))),
 ]
 
 api_schema_view = get_schema_view(

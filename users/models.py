@@ -32,4 +32,4 @@ class SmsCode(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
-    code = models.CharField(max_length=settings.SMS_CODE_LENGTH, default=generate_sms_code())
+    code = models.CharField(max_length=settings.SMS_CODE_LENGTH, default=generate_sms_code)
